@@ -4,7 +4,7 @@ Welcome to my personal portfolio repository! This is a production-ready, highly 
 
 Built with a sleek, dark-mode terminal aesthetic, it highlights my engineering milestones, technical toolkit, and key repositories.
 
-✨ **Live Preview:** [Insert Your Live Deployment Link Here, e.g., GitHub Pages]
+✨ **Live Preview:** (https://arvindtechguy.github.io/portfolio/)
 
 ---
 
