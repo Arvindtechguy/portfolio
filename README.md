@@ -1,14 +1,14 @@
-# Developer Portfolio 🌐
+# My Portfolio
 
 Welcome to my personal portfolio repository! This is a production-ready, highly interactive, and responsive single-page web environment designed to bridge the gap between software development and robotics engineering.
 
 Built with a sleek, dark-mode terminal aesthetic, it highlights my engineering milestones, technical toolkit, and key repositories.
 
-✨ **Live Preview:** (https://arvindtechguy.github.io/portfolio/)
+ **Live Preview:** (https://arvindtechguy.github.io/portfolio/)
 
 ---
 
-## 🚀 Architectural Features
+##  Architectural Features
 
 * **Interactive Node Background:** Deploys a custom HTML5 Canvas particle network system that dynamically maps coordinate vectors based on performance-optimized mathematical rendering.
 * **Modern Component Layout:** Crafted with utility-first responsive grids that collapse perfectly across mobile, tablet, and ultra-wide monitor viewports.
@@ -17,7 +17,7 @@ Built with a sleek, dark-mode terminal aesthetic, it highlights my engineering m
 
 ---
 
-## 🛠️ The Technical Toolkit
+##  The Technical Toolkit
 
 | Category | Technologies Deployed |
 |---|---|
@@ -27,7 +27,7 @@ Built with a sleek, dark-mode terminal aesthetic, it highlights my engineering m
 
 ---
 
-## 📁 Featured Engineering Projects Catalogued
+##  Featured Engineering Projects Catalogued
 
 1. **IEECS-Repository:** Central tracking environment built to store specialized hardware automation blueprints and control paradigms linking software layers to electrical components.
 2. **Signup-portal:** A streamlined front-end interface deployment exploring secure user entry pathways, custom responsive state elements, and validation rules.
@@ -37,7 +37,7 @@ Built with a sleek, dark-mode terminal aesthetic, it highlights my engineering m
 
 ---
 
-## ⚡ Quick Local Deployment
+##  Quick Local Deployment
 
 Want to review or audit the code footprint locally? Follow these steps:
 
