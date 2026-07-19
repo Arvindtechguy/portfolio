@@ -43,4 +43,4 @@ Want to review or audit the code footprint locally? Follow these steps:
 
 1. **Clone this workspace:**
    ```bash
-   git clone [https://github.com/Arvindtechguy/Arvindtechguy.github.io.git](https://github.com/Arvindtechguy/Arvindtechguy.github.io.git)
+   git clone [https://github.com/Arvindtechguy/portfolio.git](https://github.com/Arvindtechguy/portfolio.git)
