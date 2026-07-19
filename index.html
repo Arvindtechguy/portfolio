@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arvind Naraynan M R | Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen selection:bg-emerald-500 selection:text-slate-950 relative">
+
+    <!-- Interactive Background Nodes -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="code-font text-emerald-400 font-bold text-lg hover:scale-105 transition-transform">&lt;Arvind.Dev /&gt;</a>
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-400">
+                <a href="#about" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">About</a>
+                <a href="#skills" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">Skills</a>
+                <a href="#projects" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">Projects</a>
+                <a href="#experience" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">Experience</a>
+                <a href="#contact" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">Contact</a>
+                <a href="https://github.com/Arvindtechguy" target="_blank" class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1 group">
+                    <i class="fab fa-github group-hover:rotate-12 transition-transform"></i> GitHub
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-28">
+
+        <!-- Hero Section -->
+        <section id="hero" class="py-12 md:py-20 flex flex-col justify-center min-h-[75vh]">
+            <div class="code-font text-emerald-400 text-sm mb-4 animate-fade-in" style="animation-delay: 0.1s;">Hello World, my name is</div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-100 tracking-tight mb-4 animate-fade-in" style="animation-delay: 0.3s;">
+                Arvind Naraynan M R
+            </h1>
+            <h2 class="text-2xl md:text-4xl font-bold text-slate-400 mb-6 animate-fade-in" style="animation-delay: 0.5s;">
+                Building the bridge between Software & Robotics.
+            </h2>
+            <p class="text-slate-400 max-w-xl text-lg leading-relaxed mb-8 animate-fade-in" style="animation-delay: 0.7s;">
+                Mechanical Engineering student at <span class="text-slate-200 font-semibold">SRMIST</span> specializing in 
+                <span class="text-cyan-400">Automation & Robotics</span>. I build logic for hardware, experiment with open-source systems, and write clean front-end code.
+            </p>
+            <div class="flex flex-wrap gap-4 animate-fade-in" style="animation-delay: 0.9s;">
+                <a href="https://github.com/Arvindtechguy" target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-lg transition-all transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] flex items-center gap-2">
+                    <i class="fab fa-github text-lg"></i> Explore GitHub
+                </a>
+                <a href="#projects" class="border border-slate-700 hover:border-emerald-500 hover:text-emerald-400 px-6 py-3 rounded-lg transition-all transform hover:-translate-y-1">
+                    View Projects
+                </a>
+            </div>
+        </section>
+
+        <!-- About & Education Section -->
+        <section id="about" class="scroll-mt-20 grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+            <div class="md:col-span-2 space-y-6">
+                <h3 class="text-2xl font-bold text-slate-200 flex items-center gap-2">
+                    <span class="text-emerald-400 code-font">01.</span> About Me
+                </h3>
+                
+                <div class="flex flex-col sm:flex-row gap-8 items-center sm:items-start">
+                    <!-- Profile Picture Frame -->
+                    <div class="relative group shrink-0 cursor-crosshair">
+                        <div class="absolute inset-0 bg-emerald-500 rounded-xl translate-x-3 translate-y-3 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:blur-sm transition-all duration-300 z-0"></div>
+                        <div class="relative z-10 w-36 h-36 rounded-xl overflow-hidden border-2 border-emerald-400 bg-slate-800">
+                            <img src=picture.jpeg " alt="Arvind Naraynan M R" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500">
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <p class="text-slate-400 leading-relaxed text-center sm:text-left">
+                            By nature, I thrive as a <span class="text-emerald-400 font-medium cursor-pointer hover:underline" title="Flow state activated">lonely coder</span>—finding my flow state deep in complex logic, microcontrollers, and interface design. However, I am heavily driven by real-world collaboration. I've engineered structural and code foundations alongside friends for over 17 exhibition showcases and regularly dive into global open-source ecosystems.
+                        </p>
+                        <p class="text-slate-400 leading-relaxed text-center sm:text-left">
+                            Originally from <span class="text-slate-200 font-medium">Tirunelveli</span> and currently based in <span class="text-slate-200 font-medium">Chennai</span>, my obsession with building began during my school years, where I served as a Coding Club Leader powered by the Hack Club Foundation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Academic Timeline Card -->
+            <div class="bg-slate-800/40 backdrop-blur-sm border border-slate-800 rounded-xl p-6 shadow-xl hover:border-slate-700 transition-colors duration-300 h-fit">
+                <h4 class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-4 flex items-center gap-2">
+                    <i class="fas fa-graduation-cap text-emerald-400"></i> Academic Timeline
+                </h4>
+                <div class="space-y-4 text-sm">
+                    <div class="border-l-2 border-emerald-500 pl-3 group cursor-default">
+                        <p class="font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors">B.Tech Mechanical (Automation & Robotics)</p>
+                        <p class="text-slate-400 text-xs">SRMIST • Current</p>
+                    </div>
+                    <div class="border-l-2 border-slate-700 pl-3 group cursor-default">
+                        <p class="font-semibold text-slate-300 group-hover:text-cyan-400 transition-colors">Vyasa Vidyalaya Matric Hr Sec School</p>
+                        <p class="text-slate-400 text-xs">Higher Secondary Education</p>
+                        <div class="mt-1 flex gap-2 text-xs text-emerald-400 code-font">
+                            <span>12th: 432/600</span>
+                            <span>•</span>
+                            <span>11th: 407/600</span>
+                        </div>
+                    </div>
+                    <div class="border-l-2 border-slate-700 pl-3 group cursor-default">
+                        <p class="font-semibold text-slate-300 group-hover:text-slate-100 transition-colors">Secondary School (10th Standard)</p>
+                        <p class="text-slate-400 text-xs">Vyasa Vidyalaya • Score: 378/500</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toolkit & Languages -->
+        <section id="skills" class="scroll-mt-20 space-y-8">
+            <h3 class="text-2xl font-bold text-slate-200 flex items-center gap-2">
+                <span class="text-emerald-400 code-font">02.</span> Technical Toolkit
+            </h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="code-font text-xs text-cyan-400">Advanced Level</span>
+                        <i class="fab fa-html5 text-xl text-slate-600 group-hover:text-orange-500 transition-colors duration-300"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">HTML5 / CSS3</h4>
+                    <p class="text-sm text-slate-400">Advanced structural architecture and responsive layout design. Experienced in intricate color plating systems.</p>
+                </div>
+
+                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="code-font text-xs text-cyan-400">Advanced Level</span>
+                        <i class="fab fa-git-alt text-xl text-slate-600 group-hover:text-red-500 transition-colors duration-300"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">Git & Version Control</h4>
+                    <p class="text-sm text-slate-400">Mastery of staging, micro-commits, multi-branch conflict resolution, and collaborative open-source workflows on GitHub.</p>
+                </div>
+
+                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="code-font text-xs text-emerald-400">Moderate Level</span>
+                        <i class="fas fa-microchip text-xl text-slate-600 group-hover:text-blue-400 transition-colors duration-300"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">C++</h4>
+                    <p class="text-sm text-slate-400">Hardware programming tool of choice. Utilized to program functional logic and functions for Arduino & ESP32 setups.</p>
+                </div>
+
+                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="code-font text-xs text-emerald-400">Moderate Level</span>
+                        <i class="fab fa-js text-xl text-slate-600 group-hover:text-yellow-400 transition-colors duration-300"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">JavaScript</h4>
+                    <p class="text-sm text-slate-400">Focused on DOM interactive animations, smooth element hovering effects, and micro-interactions.</p>
+                </div>
+
+                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="code-font text-xs text-emerald-400">Moderate Level</span>
+                        <i class="fab fa-python text-xl text-slate-600 group-hover:text-cyan-500 transition-colors duration-300"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">Python</h4>
+                    <p class="text-sm text-slate-400">Deployed specifically for assistant applications, localized voice recognition systems, and real-time smart face-tracking modules.</p>
+                </div>
+
+                <div class="bg-slate-800/10 p-5 rounded-lg border border-dashed border-slate-800 flex flex-col justify-center items-center text-center group">
+                    <i class="fas fa-plus text-slate-600 group-hover:scale-125 group-hover:text-emerald-400 transition-all duration-300 mb-2"></i>
+                    <h4 class="text-sm font-semibold text-slate-400 group-hover:text-slate-200 transition-colors">Expanding Horizon</h4>
+                    <p class="text-xs text-slate-500 mt-1">Actively analyzing autonomous robotics control feedback systems.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Projects Section -->
+        <section id="projects" class="scroll-mt-20 space-y-8">
+            <h3 class="text-2xl font-bold text-slate-200 flex items-center gap-2">
+                <span class="text-emerald-400 code-font">03.</span> Featured Engineering Projects
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project 1: IEECS-Repository -->
+                <div class="bg-slate-800/20 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700/80 transition-all group flex flex-col justify-between">
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-network-wired text-3xl text-emerald-400/80"></i>
+                                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">Core Repo</span>
+                            </div>
+                            <a href="https://github.com/Arvindtechguy/IEECS-Repository" target="_blank" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">IEECS-Repository</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Central structural tracking environment built to store specialized hardware automation blueprints, control paradigms, and scripting setups linking software layers to electrical components.
+                        </p>
+                    </div>
+                    <div class="px-6 pb-6 pt-2">
+                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-500">
+                            <span>Embedded</span><span>•</span><span>Hardware Scripts</span><span>•</span><span>Architecture</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Signup-portal -->
+                <div class="bg-slate-800/40 border-2 border-emerald-500/30 rounded-xl overflow-hidden hover:border-emerald-500 transition-all group flex flex-col justify-between shadow-[0_0_15px_rgba(16,185,129,0.05)]">
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-user-plus text-3xl text-cyan-400"></i>
+                                <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">Web App</span>
+                            </div>
+                            <a href="https://github.com/Arvindtechguy/Signup-portal" target="_blank" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Signup-portal</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            A front-end interface deployment exploring streamlined user entry pathways, custom responsive state tracking elements, and interactive validation rules.
+                        </p>
+                    </div>
+                    <div class="px-6 pb-6 pt-2">
+                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-500">
+                            <span>HTML5</span><span>•</span><span>CSS3</span><span>•</span><span>Form Architecture</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Voice Recognition -->
+                <div class="bg-slate-800/20 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700/80 transition-all group flex flex-col justify-between">
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <i class="fas fa-folder text-3xl text-emerald-400/80"></i>
+                            <a href="https://github.com/Arvindtechguy" target="_blank" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Voice Recognitional Assistant</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Built a smart desktop companion utilizing localized Python speech intelligence libraries. Programs operations, handles continuous audio processing streams, and triggers automation tasks.
+                        </p>
+                    </div>
+                    <div class="px-6 pb-6 pt-2">
+                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-500">
+                            <span>Python</span><span>•</span><span>SpeechRecognition</span><span>•</span><span>Automation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Face Tracking -->
+                <div class="bg-slate-800/20 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700/80 transition-all group flex flex-col justify-between">
+                    <div class="p-6 space-y-4">
+                        <div class="flex justify-between items-start">
+                            <i class="fas fa-eye text-3xl text-cyan-400/80"></i>
+                            <a href="https://github.com/Arvindtechguy" target="_blank" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Smart Face Tracking Module</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed">
+                            Computer vision tracking model designed to extract orientation and movement vectors. Designed to serve as the visual perceptual link for hardware robotic systems.
+                        </p>
+                    </div>
+                    <div class="px-6 pb-6 pt-2">
+                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-500">
+                            <span>Python</span><span>•</span><span>OpenCV</span><span>•</span><span>Computer Vision</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience & Open Source Milestones -->
+        <section id="experience" class="scroll-mt-20 space-y-8">
+            <h3 class="text-2xl font-bold text-slate-200 flex items-center gap-2">
+                <span class="text-emerald-400 code-font">04.</span> Impact & Milestones
+            </h3>
+
+            <div class="space-y-6">
+                <div class="p-6 bg-slate-800/20 backdrop-blur-sm border border-slate-800 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:bg-slate-800/40 transition-colors duration-300 group">
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h4 class="text-lg font-bold text-slate-200 group-hover:text-emerald-400 transition-colors">17+ Exhibition Projects Built</h4>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">Collaborative</span>
+                        </div>
+                        <p class="text-slate-400 text-sm mt-1">
+                            Co-engineered, calibrated, and finalized hardware systems for competitive, Inter-School Educational Exhibitions.
+                        </p>
+                    </div>
+                    <span class="text-xs text-slate-500 font-medium code-font shrink-0">School Timeline</span>
+                </div>
+
+                <div class="p-6 bg-slate-800/20 backdrop-blur-sm border border-slate-800 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:bg-slate-800/40 transition-colors duration-300 group">
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h4 class="text-lg font-bold text-slate-200 group-hover:text-emerald-400 transition-colors">Open-Source Contributor</h4>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">GitHub Community</span>
+                        </div>
+                        <p class="text-slate-400 text-sm mt-1">
+                            Assisted over 4 major open-source repositories via pull requests, issue diagnosing, and cross-branch synchronization routines.
+                        </p>
+                    </div>
+                    <span class="text-xs text-slate-500 font-medium code-font shrink-0">Ongoing</span>
+                </div>
+
+                <div class="p-6 bg-slate-800/20 backdrop-blur-sm border border-slate-800 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:bg-slate-800/40 transition-colors duration-300 group">
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h4 class="text-lg font-bold text-slate-200 group-hover:text-emerald-400 transition-colors">Coding Club Lead</h4>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">Hack Club Foundation</span>
+                        </div>
+                        <p class="text-slate-400 text-sm mt-1">
+                            Organized developer workflows and initiated continuous green-dot GitHub commitment chains across the 11th and 12th standards.
+                        </p>
+                    </div>
+                    <span class="text-xs text-slate-500 font-medium code-font shrink-0">11th - 12th Std</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="scroll-mt-20 text-center max-w-xl mx-auto space-y-6 py-12">
+            <h3 class="text-sm font-semibold text-emerald-400 code-font">05. What's Next?</h3>
+            <h4 class="text-3xl md:text-4xl font-extrabold text-slate-100">Get In Touch</h4>
+            <p class="text-slate-400 text-sm leading-relaxed">
+                Whether you want to discuss automation hardware, check out open-source initiatives, talk robotics engineering, or just say hello—my inbox is open.
+            </p>
+            <div class="pt-4">
+                <a href="mailto:www.arvindtechguy@gmail.com" class="border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-950 font-bold px-8 py-3.5 rounded-lg transition-all inline-block shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)]">
+                    Say Hello via Email
+                </a>
+            </div>
+            <div class="pt-4">
+                <a href="https://www.instagram.com/itz_arvind_xo" class="border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-950 font-bold px-8 py-3.5 rounded-lg transition-all inline-block shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)]">
+                    Say Hello via Instagram
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-slate-800 mt-24 bg-slate-950/60 backdrop-blur-sm">
+        <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-xs text-slate-500 code-font">
+                Designed & Compiled by Arvind Naraynan
+            </p>
+            <div class="flex space-x-6 text-slate-400 text-lg">
+                <a href="https://github.com/Arvindtechguy" target="_blank" class="hover:text-emerald-400 transition-all transform hover:scale-125">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Canvas Animation Logic -->
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        const particleCount = 45;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function connectParticles() {
+            let maxDistance = 150;
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    let dx = particles[a].x - particles[b].x;
+                    let dy = particles[a].y - particles[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < maxDistance) {
+                        let opacity = (1 - (distance / maxDistance)) * 0.08;
+                        ctx.strokeStyle = `rgba(6, 182, 212, ${opacity})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            connectParticles();
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
