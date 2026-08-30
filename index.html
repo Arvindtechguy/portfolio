@@ -9,13 +9,18 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700&family=Dancing+Script:wght@400;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
         }
         .code-font {
             font-family: 'Fira Code', monospace;
+        }
+        
+        .dancing-name {
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
         }
         
         @keyframes fadeInUp {
@@ -28,8 +33,69 @@
                 transform: translateY(0);
             }
         }
+        
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
         .animate-fade-in {
             animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-glow {
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
         }
         
         #particle-canvas {
@@ -41,6 +107,54 @@
             z-index: 0;
             pointer-events: none;
         }
+        
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(md);
+            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+            padding: 1rem;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 40;
+        }
+        
+        .mobile-menu.active {
+            display: flex;
+        }
+        
+        .mobile-menu a {
+            color: rgb(148, 163, 184);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu a:hover {
+            background: rgba(16, 185, 129, 0.1);
+            color: rgb(16, 185, 129);
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: rgb(16, 185, 129);
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .hidden.md\:flex {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen selection:bg-emerald-500 selection:text-slate-950 relative">
@@ -49,43 +163,88 @@
     <canvas id="particle-canvas"></canvas>
 
     <!-- Header / Navigation -->
-    <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 transition-all duration-300">
-        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#" class="code-font text-emerald-400 font-bold text-lg hover:scale-105 transition-transform">&lt;Arvind.Dev /&gt;</a>
+    <header class="sticky top-0 z-50 bg-gradient-to-b from-slate-900/95 to-slate-900/80 backdrop-blur-md border-b border-slate-800/50 transition-all duration-300 shadow-lg">
+        <div class="max-w-5xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between relative">
+            <a href="#" class="code-font text-emerald-400 font-bold text-lg hover:scale-105 transition-all duration-300 flex items-center gap-2 group">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full group-hover:scale-150 transition-transform"></span>
+                <span class="hidden sm:inline">&lt;Arvind.Dev /&gt;</span>
+                <span class="sm:hidden">A.Dev</span>
+            </a>
+            
+            <!-- Desktop Navigation -->
             <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-400">
-                <a href="#about" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">About</a>
-                <a href="#skills" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">Skills</a>
-                <a href="#projects" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">Projects</a>
-                <a href="#experience" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">Experience</a>
-                <a href="#contact" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all">Contact</a>
+                <a href="#about" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all group relative">
+                    About
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#skills" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all group relative">
+                    Skills
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#projects" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all group relative">
+                    Projects
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#experience" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all group relative">
+                    Experience
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#contact" class="hover:text-emerald-400 hover:-translate-y-0.5 transition-all group relative">
+                    Contact
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
                 <a href="https://github.com/Arvindtechguy" target="_blank" class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1 group">
                     <i class="fab fa-github group-hover:rotate-12 transition-transform"></i> GitHub
                 </a>
             </nav>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="menu-toggle md:hidden" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <nav class="mobile-menu" id="mobileMenu">
+            <a href="#about" onclick="closeMobileMenu()">About</a>
+            <a href="#skills" onclick="closeMobileMenu()">Skills</a>
+            <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+            <a href="#experience" onclick="closeMobileMenu()">Experience</a>
+            <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+            <a href="https://github.com/Arvindtechguy" target="_blank" class="flex items-center gap-2">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+        </nav>
     </header>
 
-    <main class="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-28">
+    <main class="relative z-10 max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-12 space-y-16 md:space-y-28">
 
         <!-- Hero Section -->
-        <section id="hero" class="py-12 md:py-20 flex flex-col justify-center min-h-[75vh]">
-            <div class="code-font text-emerald-400 text-sm mb-4 animate-fade-in" style="animation-delay: 0.1s;">Hello World, my name is</div>
-            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-100 tracking-tight mb-4 animate-fade-in" style="animation-delay: 0.3s;">
+        <section id="hero" class="py-8 md:py-20 flex flex-col justify-center min-h-[70vh] md:min-h-[75vh]">
+            <div class="code-font text-emerald-400 text-xs md:text-sm mb-4 animate-fade-in" style="animation-delay: 0.1s;">$ Hello World, my name is</div>
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4 animate-fade-in gradient-text leading-tight dancing-name" style="animation-delay: 0.3s;">
                 Arvind Naraynan M R
             </h1>
-            <h2 class="text-2xl md:text-4xl font-bold text-slate-400 mb-6 animate-fade-in" style="animation-delay: 0.5s;">
-                Building the bridge between Software & Robotics.
-            </h2>
-            <p class="text-slate-400 max-w-xl text-lg leading-relaxed mb-8 animate-fade-in" style="animation-delay: 0.7s;">
-                Mechanical Engineering student at <span class="text-slate-200 font-semibold">SRMIST</span> specializing in 
-                <span class="text-cyan-400">Automation & Robotics</span>. I build logic for hardware, experiment with open-source systems, and write clean front-end code.
+            <div class="flex items-center gap-2 md:gap-3 mb-6 flex-wrap">
+                <div class="w-8 md:w-12 h-1 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"></div>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-slate-300 animate-fade-in" style="animation-delay: 0.5s;">
+                    Automation × Robotics
+                </h2>
+            </div>
+            <p class="text-slate-400 max-w-2xl text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-8 animate-fade-in" style="animation-delay: 0.7s;">
+                Mechanical Engineering student at <span class="text-emerald-300 font-semibold">SRMIST</span> specializing in 
+                <span class="text-cyan-400 font-medium">Automation & Robotics</span>. Building innovative solutions where hardware meets code.
             </p>
-            <div class="flex flex-wrap gap-4 animate-fade-in" style="animation-delay: 0.9s;">
-                <a href="https://github.com/Arvindtechguy" target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-lg transition-all transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] flex items-center gap-2">
-                    <i class="fab fa-github text-lg"></i> Explore GitHub
+            <div class="flex flex-col sm:flex-row gap-3 md:gap-4 animate-fade-in" style="animation-delay: 0.9s;">
+                <a href="https://github.com/Arvindtechguy" target="_blank" class="group relative bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-bold px-6 md:px-8 py-2.5 md:py-3.5 rounded-lg transition-all transform hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] flex items-center justify-center gap-2 overflow-hidden text-sm md:text-base">
+                    <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></span>
+                    <i class="fab fa-github text-lg"></i> <span>GitHub</span>
                 </a>
-                <a href="#projects" class="border border-slate-700 hover:border-emerald-500 hover:text-emerald-400 px-6 py-3 rounded-lg transition-all transform hover:-translate-y-1">
-                    View Projects
+                <a href="#projects" class="group border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-950 px-6 md:px-8 py-2.5 md:py-3 rounded-lg transition-all transform hover:-translate-y-1 font-bold text-sm md:text-base text-center">
+                    View Projects →
+                </a>
+                <a href="#contact" class="group border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-slate-950 px-6 md:px-8 py-2.5 md:py-3 rounded-lg transition-all transform hover:-translate-y-1 font-bold text-sm md:text-base text-center">
+                    Contact Me
                 </a>
             </div>
         </section>
@@ -100,9 +259,12 @@
                 <div class="flex flex-col sm:flex-row gap-8 items-center sm:items-start">
                     <!-- Profile Picture Frame -->
                     <div class="relative group shrink-0 cursor-crosshair">
-                        <div class="absolute inset-0 bg-emerald-500 rounded-xl translate-x-3 translate-y-3 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:blur-sm transition-all duration-300 z-0"></div>
-                        <div class="relative z-10 w-36 h-36 rounded-xl overflow-hidden border-2 border-emerald-400 bg-slate-800">
-                            <img src=picture.jpeg " alt="Arvind Naraynan M R" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-2xl translate-x-4 translate-y-4 group-hover:translate-x-1 group-hover:translate-y-1 group-hover:blur-lg transition-all duration-500 opacity-75 group-hover:opacity-100 z-0"></div>
+                        <div class="relative z-10 w-40 h-40 rounded-2xl overflow-hidden border-4 border-emerald-400 bg-slate-800 animate-float shadow-2xl">
+                            <img src="picture.jpeg" alt="Arvind Naraynan M R" class="w-full h-full object-cover group-hover:scale-110 transition-all duration-500 filter hover:brightness-110">
+                        </div>
+                        <div class="absolute -bottom-2 -right-2 z-20 bg-emerald-500 text-slate-950 w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg border-4 border-slate-900 animate-pulse">
+                            ✓
                         </div>
                     </div>
                     
@@ -118,27 +280,33 @@
             </div>
             
             <!-- Academic Timeline Card -->
-            <div class="bg-slate-800/40 backdrop-blur-sm border border-slate-800 rounded-xl p-6 shadow-xl hover:border-slate-700 transition-colors duration-300 h-fit">
-                <h4 class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-4 flex items-center gap-2">
+            <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/30 backdrop-blur-sm border border-slate-800 rounded-2xl p-8 shadow-xl hover:border-slate-700 hover:shadow-[0_0_30px_rgba(16,185,129,0.1)] transition-all duration-300 h-fit group">
+                <h4 class="text-sm font-bold tracking-widest text-slate-300 uppercase mb-6 flex items-center gap-2 group-hover:text-emerald-400 transition-colors">
                     <i class="fas fa-graduation-cap text-emerald-400"></i> Academic Timeline
                 </h4>
-                <div class="space-y-4 text-sm">
-                    <div class="border-l-2 border-emerald-500 pl-3 group cursor-default">
-                        <p class="font-semibold text-slate-200 group-hover:text-emerald-400 transition-colors">B.Tech Mechanical (Automation & Robotics)</p>
-                        <p class="text-slate-400 text-xs">SRMIST • Current</p>
+                <div class="space-y-6 text-sm">
+                    <div class="border-l-2 border-emerald-500 pl-4 group/item cursor-default hover:pl-5 transition-all">
+                        <p class="font-semibold text-slate-100 group-hover/item:text-emerald-400 transition-colors text-base">B.Tech Mechanical (Automation & Robotics)</p>
+                        <p class="text-slate-400 text-xs mt-1 flex items-center gap-1">
+                            <i class="fas fa-university text-emerald-400/60"></i> SRMIST • Current
+                        </p>
                     </div>
-                    <div class="border-l-2 border-slate-700 pl-3 group cursor-default">
-                        <p class="font-semibold text-slate-300 group-hover:text-cyan-400 transition-colors">Vyasa Vidyalaya Matric Hr Sec School</p>
-                        <p class="text-slate-400 text-xs">Higher Secondary Education</p>
-                        <div class="mt-1 flex gap-2 text-xs text-emerald-400 code-font">
-                            <span>12th: 432/600</span>
-                            <span>•</span>
-                            <span>11th: 407/600</span>
+                    <div class="border-l-2 border-slate-700 pl-4 group/item cursor-default hover:border-cyan-500 hover:pl-5 transition-all">
+                        <p class="font-semibold text-slate-200 group-hover/item:text-cyan-400 transition-colors text-base">Higher Secondary Education</p>
+                        <p class="text-slate-400 text-xs mt-1 flex items-center gap-1">
+                            <i class="fas fa-school text-slate-500"></i> Vyasa Vidyalaya Matric Hr Sec School
+                        </p>
+                        <div class="mt-2.5 flex gap-3 text-xs text-emerald-400 code-font bg-emerald-500/10 px-3 py-2 rounded-lg">
+                            <span class="flex items-center gap-1"><i class="fas fa-check text-emerald-500"></i> 12th: 432/600</span>
+                            <span class="text-slate-600">•</span>
+                            <span class="flex items-center gap-1"><i class="fas fa-check text-emerald-500"></i> 11th: 407/600</span>
                         </div>
                     </div>
-                    <div class="border-l-2 border-slate-700 pl-3 group cursor-default">
-                        <p class="font-semibold text-slate-300 group-hover:text-slate-100 transition-colors">Secondary School (10th Standard)</p>
-                        <p class="text-slate-400 text-xs">Vyasa Vidyalaya • Score: 378/500</p>
+                    <div class="border-l-2 border-slate-700 pl-4 group/item cursor-default hover:border-cyan-500 hover:pl-5 transition-all">
+                        <p class="font-semibold text-slate-200 group-hover/item:text-cyan-400 transition-colors text-base">Secondary School (10th Standard)</p>
+                        <p class="text-slate-400 text-xs mt-1 flex items-center gap-1">
+                            <i class="fas fa-book text-slate-500"></i> Vyasa Vidyalaya • Score: 378/500
+                        </p>
                     </div>
                 </div>
             </div>
@@ -151,55 +319,60 @@
             </h3>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="code-font text-xs text-cyan-400">Advanced Level</span>
-                        <i class="fab fa-html5 text-xl text-slate-600 group-hover:text-orange-500 transition-colors duration-300"></i>
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/30 backdrop-blur-sm p-6 rounded-xl border border-slate-800 hover:border-emerald-500/70 hover:-translate-y-2 transition-all duration-300 group shadow-lg hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="code-font text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full">Expert</span>
+                        <i class="fab fa-html5 text-3xl text-orange-500 group-hover:scale-125 transition-transform duration-300"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">HTML5 / CSS3</h4>
-                    <p class="text-sm text-slate-400">Advanced structural architecture and responsive layout design. Experienced in intricate color plating systems.</p>
+                    <h4 class="text-lg font-bold text-slate-100 mb-2 group-hover:text-emerald-400 transition-colors">HTML5 / CSS3</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Advanced structural architecture and responsive design systems with intricate color and layout management.</p>
+                    <div class="mt-4 h-1 bg-gradient-to-r from-orange-500 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
 
-                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="code-font text-xs text-cyan-400">Advanced Level</span>
-                        <i class="fab fa-git-alt text-xl text-slate-600 group-hover:text-red-500 transition-colors duration-300"></i>
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/30 backdrop-blur-sm p-6 rounded-xl border border-slate-800 hover:border-emerald-500/70 hover:-translate-y-2 transition-all duration-300 group shadow-lg hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="code-font text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full">Expert</span>
+                        <i class="fab fa-git-alt text-3xl text-red-500 group-hover:scale-125 transition-transform duration-300"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">Git & Version Control</h4>
-                    <p class="text-sm text-slate-400">Mastery of staging, micro-commits, multi-branch conflict resolution, and collaborative open-source workflows on GitHub.</p>
+                    <h4 class="text-lg font-bold text-slate-100 mb-2 group-hover:text-emerald-400 transition-colors">Git & Version Control</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Mastery of collaborative workflows, conflict resolution, and open-source contribution patterns on GitHub.</p>
+                    <div class="mt-4 h-1 bg-gradient-to-r from-red-500 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
 
-                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="code-font text-xs text-emerald-400">Moderate Level</span>
-                        <i class="fas fa-microchip text-xl text-slate-600 group-hover:text-blue-400 transition-colors duration-300"></i>
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/30 backdrop-blur-sm p-6 rounded-xl border border-slate-800 hover:border-emerald-500/70 hover:-translate-y-2 transition-all duration-300 group shadow-lg hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="code-font text-xs text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full">Proficient</span>
+                        <i class="fas fa-microchip text-3xl text-blue-400 group-hover:scale-125 transition-transform duration-300"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">C++</h4>
-                    <p class="text-sm text-slate-400">Hardware programming tool of choice. Utilized to program functional logic and functions for Arduino & ESP32 setups.</p>
+                    <h4 class="text-lg font-bold text-slate-100 mb-2 group-hover:text-emerald-400 transition-colors">C++ / Embedded</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Hardware programming for Arduino & ESP32 microcontrollers with focus on real-time control systems.</p>
+                    <div class="mt-4 h-1 bg-gradient-to-r from-blue-400 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
 
-                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="code-font text-xs text-emerald-400">Moderate Level</span>
-                        <i class="fab fa-js text-xl text-slate-600 group-hover:text-yellow-400 transition-colors duration-300"></i>
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/30 backdrop-blur-sm p-6 rounded-xl border border-slate-800 hover:border-emerald-500/70 hover:-translate-y-2 transition-all duration-300 group shadow-lg hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="code-font text-xs text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full">Proficient</span>
+                        <i class="fab fa-js text-3xl text-yellow-400 group-hover:scale-125 transition-transform duration-300"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">JavaScript</h4>
-                    <p class="text-sm text-slate-400">Focused on DOM interactive animations, smooth element hovering effects, and micro-interactions.</p>
+                    <h4 class="text-lg font-bold text-slate-100 mb-2 group-hover:text-emerald-400 transition-colors">JavaScript</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">DOM manipulation, smooth animations, and interactive micro-interactions for engaging user experiences.</p>
+                    <div class="mt-4 h-1 bg-gradient-to-r from-yellow-400 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
 
-                <div class="bg-slate-800/30 backdrop-blur-sm p-5 rounded-lg border border-slate-800 hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 group">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="code-font text-xs text-emerald-400">Moderate Level</span>
-                        <i class="fab fa-python text-xl text-slate-600 group-hover:text-cyan-500 transition-colors duration-300"></i>
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/30 backdrop-blur-sm p-6 rounded-xl border border-slate-800 hover:border-emerald-500/70 hover:-translate-y-2 transition-all duration-300 group shadow-lg hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="code-font text-xs text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full">Proficient</span>
+                        <i class="fab fa-python text-3xl text-cyan-500 group-hover:scale-125 transition-transform duration-300"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-slate-200 mb-1 group-hover:text-emerald-400 transition-colors">Python</h4>
-                    <p class="text-sm text-slate-400">Deployed specifically for assistant applications, localized voice recognition systems, and real-time smart face-tracking modules.</p>
+                    <h4 class="text-lg font-bold text-slate-100 mb-2 group-hover:text-emerald-400 transition-colors">Python</h4>
+                    <p class="text-sm text-slate-400 leading-relaxed">Voice recognition, automation, computer vision, and smart face-tracking for intelligent applications.</p>
+                    <div class="mt-4 h-1 bg-gradient-to-r from-cyan-500 to-transparent rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
 
-                <div class="bg-slate-800/10 p-5 rounded-lg border border-dashed border-slate-800 flex flex-col justify-center items-center text-center group">
-                    <i class="fas fa-plus text-slate-600 group-hover:scale-125 group-hover:text-emerald-400 transition-all duration-300 mb-2"></i>
-                    <h4 class="text-sm font-semibold text-slate-400 group-hover:text-slate-200 transition-colors">Expanding Horizon</h4>
-                    <p class="text-xs text-slate-500 mt-1">Actively analyzing autonomous robotics control feedback systems.</p>
+                <div class="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 backdrop-blur-sm p-6 rounded-xl border border-dashed border-emerald-500/30 flex flex-col justify-center items-center text-center group hover:border-emerald-500/70 hover:-translate-y-2 transition-all duration-300">
+                    <i class="fas fa-rocket text-4xl text-emerald-400 group-hover:scale-125 group-hover:rotate-12 transition-all duration-300 mb-2"></i>
+                    <h4 class="text-sm font-semibold text-slate-200 group-hover:text-emerald-300 transition-colors">Expanding Horizon</h4>
+                    <p class="text-xs text-slate-500 mt-2">Exploring autonomous systems, ML, and robotics control feedback systems.</p>
                 </div>
             </div>
         </section>
@@ -212,83 +385,109 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Project 1: IEECS-Repository -->
-                <div class="bg-slate-800/20 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700/80 transition-all group flex flex-col justify-between">
-                    <div class="p-6 space-y-4">
+                <div class="group relative bg-slate-800/30 border border-slate-700 rounded-xl overflow-hidden hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(16,185,129,0.2)] flex flex-col justify-between">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-cyan-500/0 group-hover:from-emerald-500/5 group-hover:to-cyan-500/5 transition-all duration-300"></div>
+                    <div class="relative p-6 space-y-4">
                         <div class="flex justify-between items-start">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-network-wired text-3xl text-emerald-400/80"></i>
-                                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">Core Repo</span>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+                                    <i class="fas fa-network-wired text-2xl text-emerald-400"></i>
+                                </div>
+                                <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full">Core Repo</span>
                             </div>
-                            <a href="https://github.com/Arvindtechguy/IEECS-Repository" target="_blank" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                            <a href="https://github.com/Arvindtechguy/IEECS-Repository" target="_blank" class="text-slate-400 hover:text-emerald-400 hover:scale-125 transition-all"><i class="fab fa-github text-xl"></i></a>
                         </div>
                         <h4 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">IEECS-Repository</h4>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            Central structural tracking environment built to store specialized hardware automation blueprints, control paradigms, and scripting setups linking software layers to electrical components.
+                            Central structural tracking environment for hardware automation blueprints, control paradigms, and scripting setups linking software to electrical components.
                         </p>
                     </div>
-                    <div class="px-6 pb-6 pt-2">
-                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-500">
-                            <span>Embedded</span><span>•</span><span>Hardware Scripts</span><span>•</span><span>Architecture</span>
+                    <div class="relative px-6 pb-6 pt-2 border-t border-slate-700/50">
+                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-400">
+                            <span class="bg-slate-800/50 px-2.5 py-1 rounded-full">Embedded</span>
+                            <span class="bg-slate-800/50 px-2.5 py-1 rounded-full">Hardware Scripts</span>
+                            <span class="bg-slate-800/50 px-2.5 py-1 rounded-full">Architecture</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Project 2: Signup-portal -->
-                <div class="bg-slate-800/40 border-2 border-emerald-500/30 rounded-xl overflow-hidden hover:border-emerald-500 transition-all group flex flex-col justify-between shadow-[0_0_15px_rgba(16,185,129,0.05)]">
-                    <div class="p-6 space-y-4">
+                <div class="group relative bg-gradient-to-br from-slate-800/50 to-slate-900/30 border-2 border-emerald-500/40 rounded-xl overflow-hidden hover:border-emerald-500 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] flex flex-col justify-between">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 group-hover:from-emerald-500/20 group-hover:to-cyan-500/20 transition-all duration-300"></div>
+                    <div class="relative p-6 space-y-4">
                         <div class="flex justify-between items-start">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-user-plus text-3xl text-cyan-400"></i>
-                                <span class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded">Web App</span>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg bg-cyan-500/20 flex items-center justify-center">
+                                    <i class="fas fa-user-plus text-2xl text-cyan-400"></i>
+                                </div>
+                                <span class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full">Web App</span>
                             </div>
-                            <a href="https://github.com/Arvindtechguy/Signup-portal" target="_blank" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                            <a href="https://github.com/Arvindtechguy/Signup-portal" target="_blank" class="text-slate-400 hover:text-emerald-400 hover:scale-125 transition-all"><i class="fab fa-github text-xl"></i></a>
                         </div>
                         <h4 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Signup-portal</h4>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            A front-end interface deployment exploring streamlined user entry pathways, custom responsive state tracking elements, and interactive validation rules.
+                            Modern front-end interface exploring streamlined user entry pathways with custom responsive state tracking and interactive validation rules.
                         </p>
                     </div>
-                    <div class="px-6 pb-6 pt-2">
-                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-500">
-                            <span>HTML5</span><span>•</span><span>CSS3</span><span>•</span><span>Form Architecture</span>
+                    <div class="relative px-6 pb-6 pt-2 border-t border-emerald-500/20">
+                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-300">
+                            <span class="bg-emerald-500/20 px-2.5 py-1 rounded-full">HTML5</span>
+                            <span class="bg-emerald-500/20 px-2.5 py-1 rounded-full">CSS3</span>
+                            <span class="bg-emerald-500/20 px-2.5 py-1 rounded-full">Form Architecture</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Project 3: Voice Recognition -->
-                <div class="bg-slate-800/20 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700/80 transition-all group flex flex-col justify-between">
-                    <div class="p-6 space-y-4">
+                <div class="group relative bg-slate-800/30 border border-slate-700 rounded-xl overflow-hidden hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(16,185,129,0.2)] flex flex-col justify-between">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-cyan-500/0 group-hover:from-emerald-500/5 group-hover:to-cyan-500/5 transition-all duration-300"></div>
+                    <div class="relative p-6 space-y-4">
                         <div class="flex justify-between items-start">
-                            <i class="fas fa-folder text-3xl text-emerald-400/80"></i>
-                            <a href="https://github.com/Arvindtechguy" target="_blank" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                                    <i class="fas fa-microphone text-2xl text-purple-400"></i>
+                                </div>
+                                <span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full">AI Tool</span>
+                            </div>
+                            <a href="https://github.com/Arvindtechguy" target="_blank" class="text-slate-400 hover:text-emerald-400 hover:scale-125 transition-all"><i class="fab fa-github text-xl"></i></a>
                         </div>
                         <h4 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Voice Recognitional Assistant</h4>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            Built a smart desktop companion utilizing localized Python speech intelligence libraries. Programs operations, handles continuous audio processing streams, and triggers automation tasks.
+                            Smart desktop companion utilizing Python speech intelligence libraries with continuous audio processing and real-time automation task triggering.
                         </p>
                     </div>
-                    <div class="px-6 pb-6 pt-2">
-                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-500">
-                            <span>Python</span><span>•</span><span>SpeechRecognition</span><span>•</span><span>Automation</span>
+                    <div class="relative px-6 pb-6 pt-2 border-t border-slate-700/50">
+                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-400">
+                            <span class="bg-slate-800/50 px-2.5 py-1 rounded-full">Python</span>
+                            <span class="bg-slate-800/50 px-2.5 py-1 rounded-full">SpeechRecognition</span>
+                            <span class="bg-slate-800/50 px-2.5 py-1 rounded-full">Automation</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Project 4: Face Tracking -->
-                <div class="bg-slate-800/20 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700/80 transition-all group flex flex-col justify-between">
-                    <div class="p-6 space-y-4">
+                <div class="group relative bg-slate-800/30 border border-slate-700 rounded-xl overflow-hidden hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(16,185,129,0.2)] flex flex-col justify-between">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-cyan-500/0 group-hover:from-emerald-500/5 group-hover:to-cyan-500/5 transition-all duration-300"></div>
+                    <div class="relative p-6 space-y-4">
                         <div class="flex justify-between items-start">
-                            <i class="fas fa-eye text-3xl text-cyan-400/80"></i>
-                            <a href="https://github.com/Arvindtechguy" target="_blank" class="text-slate-400 hover:text-emerald-400 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-lg bg-pink-500/20 flex items-center justify-center">
+                                    <i class="fas fa-eye text-2xl text-pink-400"></i>
+                                </div>
+                                <span class="bg-pink-500/20 text-pink-300 border border-pink-500/30 text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full">CV</span>
+                            </div>
+                            <a href="https://github.com/Arvindtechguy" target="_blank" class="text-slate-400 hover:text-emerald-400 hover:scale-125 transition-all"><i class="fab fa-github text-xl"></i></a>
                         </div>
                         <h4 class="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Smart Face Tracking Module</h4>
                         <p class="text-slate-400 text-sm leading-relaxed">
-                            Computer vision tracking model designed to extract orientation and movement vectors. Designed to serve as the visual perceptual link for hardware robotic systems.
+                            Advanced computer vision system extracting orientation and movement vectors, designed as the visual perceptual link for robotic hardware systems.
                         </p>
                     </div>
-                    <div class="px-6 pb-6 pt-2">
-                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-500">
-                            <span>Python</span><span>•</span><span>OpenCV</span><span>•</span><span>Computer Vision</span>
+                    <div class="relative px-6 pb-6 pt-2 border-t border-slate-700/50">
+                        <div class="flex flex-wrap gap-2 code-font text-xs text-slate-400">
+                            <span class="bg-slate-800/50 px-2.5 py-1 rounded-full">Python</span>
+                            <span class="bg-slate-800/50 px-2.5 py-1 rounded-full">OpenCV</span>
+                            <span class="bg-slate-800/50 px-2.5 py-1 rounded-full">Computer Vision</span>
                         </div>
                     </div>
                 </div>
@@ -302,78 +501,161 @@
             </h3>
 
             <div class="space-y-6">
-                <div class="p-6 bg-slate-800/20 backdrop-blur-sm border border-slate-800 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:bg-slate-800/40 transition-colors duration-300 group">
-                    <div>
-                        <div class="flex items-center gap-3">
-                            <h4 class="text-lg font-bold text-slate-200 group-hover:text-emerald-400 transition-colors">17+ Exhibition Projects Built</h4>
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">Collaborative</span>
+                <div class="group relative p-6 bg-gradient-to-r from-slate-800/40 to-slate-900/20 backdrop-blur-sm border border-slate-800 rounded-xl hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-transparent to-cyan-500/0 group-hover:from-emerald-500/5 group-hover:to-cyan-500/5 transition-all rounded-xl"></div>
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-3xl">🏆</span>
+                            <h4 class="text-lg font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">17+ Exhibition Projects Built</h4>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 whitespace-nowrap">Collaborative</span>
                         </div>
-                        <p class="text-slate-400 text-sm mt-1">
-                            Co-engineered, calibrated, and finalized hardware systems for competitive, Inter-School Educational Exhibitions.
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                            Co-engineered, calibrated, and finalized hardware systems for competitive inter-school educational exhibitions with award-winning results.
                         </p>
                     </div>
-                    <span class="text-xs text-slate-500 font-medium code-font shrink-0">School Timeline</span>
+                    <span class="text-xs text-slate-500 font-medium code-font shrink-0 px-3 py-1 bg-slate-800/50 rounded-full">School Timeline</span>
                 </div>
 
-                <div class="p-6 bg-slate-800/20 backdrop-blur-sm border border-slate-800 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:bg-slate-800/40 transition-colors duration-300 group">
-                    <div>
-                        <div class="flex items-center gap-3">
-                            <h4 class="text-lg font-bold text-slate-200 group-hover:text-emerald-400 transition-colors">Open-Source Contributor</h4>
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">GitHub Community</span>
+                <div class="group relative p-6 bg-gradient-to-r from-slate-800/40 to-slate-900/20 backdrop-blur-sm border border-slate-800 rounded-xl hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-transparent to-cyan-500/0 group-hover:from-emerald-500/5 group-hover:to-cyan-500/5 transition-all rounded-xl"></div>
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-3xl">🌍</span>
+                            <h4 class="text-lg font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Open-Source Contributor</h4>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 whitespace-nowrap">GitHub Community</span>
                         </div>
-                        <p class="text-slate-400 text-sm mt-1">
-                            Assisted over 4 major open-source repositories via pull requests, issue diagnosing, and cross-branch synchronization routines.
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                            Assisted over 4 major open-source repositories via pull requests, issue diagnosis, and cross-branch synchronization with meaningful contributions.
                         </p>
                     </div>
-                    <span class="text-xs text-slate-500 font-medium code-font shrink-0">Ongoing</span>
+                    <span class="text-xs text-slate-500 font-medium code-font shrink-0 px-3 py-1 bg-slate-800/50 rounded-full">Ongoing</span>
                 </div>
 
-                <div class="p-6 bg-slate-800/20 backdrop-blur-sm border border-slate-800 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:bg-slate-800/40 transition-colors duration-300 group">
-                    <div>
-                        <div class="flex items-center gap-3">
-                            <h4 class="text-lg font-bold text-slate-200 group-hover:text-emerald-400 transition-colors">Coding Club Lead</h4>
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">Hack Club Foundation</span>
+                <div class="group relative p-6 bg-gradient-to-r from-slate-800/40 to-slate-900/20 backdrop-blur-sm border border-slate-800 rounded-xl hover:border-emerald-500/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-transparent to-cyan-500/0 group-hover:from-emerald-500/5 group-hover:to-cyan-500/5 transition-all rounded-xl"></div>
+                    <div class="relative">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-3xl">👨‍💻</span>
+                            <h4 class="text-lg font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">Coding Club Lead</h4>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-red-500/20 text-red-300 border border-red-500/30 whitespace-nowrap">Hack Club Foundation</span>
                         </div>
-                        <p class="text-slate-400 text-sm mt-1">
-                            Organized developer workflows and initiated continuous green-dot GitHub commitment chains across the 11th and 12th standards.
+                        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                            Organized developer workflows and initiated continuous GitHub commitment chains across 11th and 12th standards with active mentorship.
                         </p>
                     </div>
-                    <span class="text-xs text-slate-500 font-medium code-font shrink-0">11th - 12th Std</span>
+                    <span class="text-xs text-slate-500 font-medium code-font shrink-0 px-3 py-1 bg-slate-800/50 rounded-full">11th - 12th Std</span>
                 </div>
             </div>
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="scroll-mt-20 text-center max-w-xl mx-auto space-y-6 py-12">
-            <h3 class="text-sm font-semibold text-emerald-400 code-font">05. What's Next?</h3>
-            <h4 class="text-3xl md:text-4xl font-extrabold text-slate-100">Get In Touch</h4>
-            <p class="text-slate-400 text-sm leading-relaxed">
-                Whether you want to discuss automation hardware or mini Projects, check out open-source initiatives, talk robotics engineering, or just say hello—my inbox is open. Even Small Things Matters when its An Project
-            </p>
-            <div class="pt-4">
-                <a href="mailto:www.arvindtechguy@gmail.com" class="border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-950 font-bold px-8 py-3.5 rounded-lg transition-all inline-block shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)]">
-                    Say Hello via Email
-                </a>
+        <section id="contact" class="scroll-mt-20 text-center max-w-3xl mx-auto space-y-8 md:space-y-10 py-8 md:py-12 px-4 md:px-0">
+            <div class="space-y-3 md:space-y-4 animate-fade-in">
+                <h3 class="text-xs md:text-sm font-semibold text-emerald-400 code-font">05. What's Next?</h3>
+                <h4 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-100 gradient-text">Let's Build Something Amazing</h4>
+                <p class="text-slate-400 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+                    Whether you're interested in discussing cutting-edge robotics, collaborative projects, open-source contributions, or just want to connect—I'm always excited to chat with fellow builders.
+                </p>
             </div>
-            <div class="pt-4">
-                <a href="https://www.instagram.com/itz_arvind_xo" class="border-2 border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-slate-950 font-bold px-8 py-3.5 rounded-lg transition-all inline-block shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_25px_rgba(16,185,129,0.3)]">
-                    Say Hello via Instagram
-                </a>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 my-6 md:my-8">
+                <div class="bg-slate-800/30 border border-slate-800 rounded-lg p-3 md:p-4 hover:border-emerald-500/50 hover:bg-slate-800/50 transition-all group">
+                    <p class="text-xl md:text-3xl font-bold text-emerald-400 group-hover:text-emerald-300">17+</p>
+                    <p class="text-xs text-slate-400 mt-1">Projects</p>
+                </div>
+                <div class="bg-slate-800/30 border border-slate-800 rounded-lg p-3 md:p-4 hover:border-emerald-500/50 hover:bg-slate-800/50 transition-all group">
+                    <p class="text-xl md:text-3xl font-bold text-cyan-400 group-hover:text-cyan-300">4+</p>
+                    <p class="text-xs text-slate-400 mt-1">Open Source</p>
+                </div>
+                <div class="bg-slate-800/30 border border-slate-800 rounded-lg p-3 md:p-4 hover:border-emerald-500/50 hover:bg-slate-800/50 transition-all group">
+                    <p class="text-xl md:text-3xl font-bold text-purple-400 group-hover:text-purple-300">100%</p>
+                    <p class="text-xs text-slate-400 mt-1">Commitment</p>
+                </div>
+                <div class="bg-slate-800/30 border border-slate-800 rounded-lg p-3 md:p-4 hover:border-emerald-500/50 hover:bg-slate-800/50 transition-all group">
+                    <p class="text-xl md:text-3xl font-bold text-pink-400 group-hover:text-pink-300">∞</p>
+                    <p class="text-xs text-slate-400 mt-1">Curiosity</p>
+                </div>
+            </div>
+
+            <!-- Contact CTAs -->
+            <div class="space-y-3 md:space-y-4">
+                <div class="flex flex-col gap-2 md:gap-4 justify-center">
+                    <a href="mailto:www.arvindtechguy@gmail.com" class="group relative px-6 md:px-8 py-3 md:py-4 rounded-lg font-bold text-slate-950 bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 transition-all transform hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] inline-flex items-center justify-center gap-2 overflow-hidden text-sm md:text-base">
+                        <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></span>
+                        <i class="fas fa-envelope text-lg"></i>
+                        <span>Send Email</span>
+                    </a>
+                    <a href="https://www.instagram.com/itz_arvind_xo" target="_blank" class="group px-6 md:px-8 py-3 md:py-4 rounded-lg font-bold border-2 border-pink-500 text-pink-400 hover:bg-pink-500 hover:text-slate-950 transition-all transform hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] inline-flex items-center justify-center gap-2 text-sm md:text-base">
+                        <i class="fab fa-instagram text-lg"></i>
+                        <span>Instagram</span>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://github.com/Arvindtechguy" target="_blank" class="group inline-flex items-center justify-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors text-xs md:text-sm flex-wrap">
+                        <i class="fab fa-github text-lg"></i>
+                        <span class="hidden sm:inline">github.com/Arvindtechguy</span>
+                        <span class="sm:hidden">GitHub</span>
+                        <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 border-t border-slate-800 mt-24 bg-slate-950/60 backdrop-blur-sm">
-        <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p class="text-xs text-slate-500 code-font">
-                Designed & Compiled by Arvind under MIT License
-            </p>
-            <div class="flex space-x-6 text-slate-400 text-lg">
-                <a href="https://github.com/Arvindtechguy/portfolio" target="_blank" class="hover:text-emerald-400 transition-all transform hover:scale-125">
-                    <i class="fab fa-github"></i>
-                </a>
+    <footer class="relative z-10 border-t border-slate-800 mt-16 md:mt-28 bg-gradient-to-b from-slate-950/60 to-slate-950/90 backdrop-blur-sm">
+        <div class="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-12 space-y-6 md:space-y-8">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 pb-6 md:pb-8 border-b border-slate-800">
+                <div class="space-y-2">
+                    <h4 class="text-emerald-400 font-bold text-xs md:text-sm code-font">Navigation</h4>
+                    <div class="space-y-1">
+                        <a href="#about" class="text-slate-400 hover:text-emerald-400 text-xs md:text-sm transition-colors block">About</a>
+                        <a href="#skills" class="text-slate-400 hover:text-emerald-400 text-xs md:text-sm transition-colors block">Skills</a>
+                        <a href="#projects" class="text-slate-400 hover:text-emerald-400 text-xs md:text-sm transition-colors block">Projects</a>
+                        <a href="#experience" class="text-slate-400 hover:text-emerald-400 text-xs md:text-sm transition-colors block">Experience</a>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <h4 class="text-emerald-400 font-bold text-xs md:text-sm code-font">Social</h4>
+                    <div class="space-y-1">
+                        <a href="https://github.com/Arvindtechguy" target="_blank" class="text-slate-400 hover:text-emerald-400 text-xs md:text-sm transition-colors flex items-center gap-2">
+                            <i class="fab fa-github text-lg"></i> <span class="hidden sm:inline">GitHub</span>
+                        </a>
+                        <a href="https://www.instagram.com/itz_arvind_xo" target="_blank" class="text-slate-400 hover:text-emerald-400 text-xs md:text-sm transition-colors flex items-center gap-2">
+                            <i class="fab fa-instagram text-lg"></i> <span class="hidden sm:inline">Instagram</span>
+                        </a>
+                        <a href="mailto:www.arvindtechguy@gmail.com" class="text-slate-400 hover:text-emerald-400 text-xs md:text-sm transition-colors flex items-center gap-2">
+                            <i class="fas fa-envelope text-lg"></i> <span class="hidden sm:inline">Email</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="space-y-2 col-span-2 md:col-span-1">
+                    <h4 class="text-emerald-400 font-bold text-xs md:text-sm code-font">Quick Links</h4>
+                    <div class="space-y-1">
+                        <a href="#contact" class="text-slate-400 hover:text-emerald-400 text-xs md:text-sm transition-colors block">Contact</a>
+                        <a href="https://github.com/Arvindtechguy/portfolio" target="_blank" class="text-slate-400 hover:text-emerald-400 text-xs md:text-sm transition-colors block">Source</a>
+                        <p class="text-slate-500 text-xs mt-2">© 2024 Arvind</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between gap-3 md:gap-4 text-xs text-slate-500">
+                <p class="code-font text-center md:text-left">
+                    Designed & Compiled with <i class="fas fa-heart text-red-500"></i> under MIT License
+                </p>
+                <div class="flex space-x-4 md:space-x-6 text-slate-400">
+                    <a href="https://github.com/Arvindtechguy/portfolio" target="_blank" class="hover:text-emerald-400 transition-all transform hover:scale-125">
+                        <i class="fab fa-github text-lg"></i>
+                    </a>
+                    <a href="https://www.instagram.com/itz_arvind_xo" target="_blank" class="hover:text-emerald-400 transition-all transform hover:scale-125">
+                        <i class="fab fa-instagram text-lg"></i>
+                    </a>
+                    <a href="mailto:www.arvindtechguy@gmail.com" class="hover:text-emerald-400 transition-all transform hover:scale-125">
+                        <i class="fas fa-envelope text-lg"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </footer>
@@ -460,6 +742,25 @@
 
         init();
         animate();
+        
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+        
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+        }
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('header')) {
+                closeMobileMenu();
+            }
+        });
     </script>
 </body>
 </html>
